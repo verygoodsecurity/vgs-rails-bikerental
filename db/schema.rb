@@ -13,23 +13,19 @@
 
 ActiveRecord::Schema.define(version: 20140902210522) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
-  create_table "listings", force: true do |t|
+  create_table "listings", force: :cascade do |t|
     t.integer  "bicycle_id"
     t.string   "title"
     t.text     "description"
     t.integer  "price"
     t.string   "bicycle_type"
     t.integer  "user_id"
-    t.string   "owner_uri"
     t.string   "location"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "rentals", force: true do |t|
+  create_table "rentals", force: :cascade do |t|
     t.integer  "owner_id"
     t.integer  "buyer_id"
     t.integer  "listing_id"
@@ -38,26 +34,26 @@ ActiveRecord::Schema.define(version: 20140902210522) do
     t.string   "order_href"
   end
 
-  create_table "users", force: true do |t|
-    t.string   "email",                              default: "", null: false
-    t.string   "encrypted_password",     limit: 128, default: "", null: false
+  create_table "users", force: :cascade do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                      default: 0
+    t.integer  "sign_in_count",          default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.string   "customer_href"
-    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "customer_href"
+    t.string   "name"
     t.string   "bank_account_href"
   end
 
-  add_index "users", ["customer_href"], name: "index_users_on_customer_href", using: :btree
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["customer_href"], name: "index_users_on_customer_href"
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
 end

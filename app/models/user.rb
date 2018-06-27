@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   def balanced_bank_account
     return Balanced::Customer.fetch(self.bank_account_href) if self.bank_account_href
   end
-  
+
   def balanced_customer
     return Balanced::Customer.fetch(self.customer_href) if self.customer_href
 

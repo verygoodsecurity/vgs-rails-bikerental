@@ -1,25 +1,40 @@
+default: &default
+  adapter: sqlite3
+  pool: 5
+  timeout: 5000
+
 development:
-  adapter: postgresql
-  host: localhost
-  encoding: unicode
-  database: rentmybike_dev
-  pool: 5
-  username:
-  password:
-
+  <<: *default
+  database: db/data/development.sqlite3
 test:
-  adapter: postgresql
-  encoding: unicode
-  database: rentmybike_test
-  pool: 5
-
-# Add the below...
+  <<: *default
+  database: db/data/test.sqlite3
 
 production:
-  adapter: postgresql
-  host: localhost
-  encoding: unicode
-  database: rentmybike_production
-  pool: 5
-  username:
-  password:
+  <<: *default
+  database: db/data/production.sqlite3
+
+
+# development:
+#   adapter: sqlite3
+#   host: localhost
+#   encoding: unicode
+#   database: rentmybike_dev
+#   pool: 5
+
+# test:
+#   adapter: sqlite3
+#   encoding: unicode
+#   database: rentmybike_test
+#   pool: 5
+
+# # Add the below...
+
+# production:
+#   adapter: postgresql
+#   host: localhost
+#   encoding: unicode
+#   database: rentmybike_production
+#   pool: 5
+#   username:
+#   password:

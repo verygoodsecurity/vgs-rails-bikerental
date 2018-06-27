@@ -4,10 +4,15 @@ services:
     image: postgres:9.6-alpine
   app:
     build: .
-    command: bin/rails s -p 3000 -b '0.0.0.0'
+    command: >
+      /bin/bash -c "cd /opt/app/src && rm -f tmp/pids/* && bin/rake db:create && bin/rake db:migrate && bin/rails server -p 3000 -b '0.0.0.0'"
     volumes:
       - .:/opt/app/src
     ports:
       - "3000:3000"
     depends_on:
       - db
+    env_file:
+      - .env
+    environment:
+      RAILS_ENV: "development"

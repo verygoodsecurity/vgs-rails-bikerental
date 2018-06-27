@@ -26,7 +26,7 @@ RUN apt-get update -qq \
 
 # Different layer for gems installation
 WORKDIR $APP_PATH
-COPY Gemfile* $APP_PATH/
+COPY Gemfile $APP_PATH/
 RUN echo "gem: --no-ri --no-rdoc" > ~/.gemrc \
     && gem2.3 install bundler \
     && bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3

@@ -23,7 +23,7 @@ gem 'jquery-rails'
 gem 'devise'
 
 gem 'protected_attributes'
-gem 'less-rails'
+gem 'less-rails', '~> 2.8.0'
 
 group :development do
   gem 'quiet_assets'
