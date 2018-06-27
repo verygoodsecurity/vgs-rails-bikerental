@@ -1,0 +1,19 @@
+{
+  "name": "python_demo",
+  "version": "1.0.0",
+   "description": "Very Good Security, Inc. Documentation",
+   "author": "dev@verygoodsecurity.com",
+   "main": "gulpfile.js",
+   "scripts": {
+     "start": "gulp"
+   },
+   "dependencies": {
+
+   },
+   "devDependencies": {
+     "browser-sync": "^2.23.6",
+     "gulp": "^3.9.0",
+     "gulp-run": "^1.6.8",
+     "fancy-log": "^1.3.2"
+   }
+}

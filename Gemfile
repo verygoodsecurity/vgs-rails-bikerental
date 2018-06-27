@@ -1,0 +1,37 @@
+source 'https://rubygems.org'
+
+# ruby 2.0.0 required for Heroku deployment, 1.9.3 works locally
+ruby '2.3.7'
+
+# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '~> 4.1', '>= 4.1.0'
+
+gem 'sqlite3'
+
+gem 'thin'
+
+# Use SCSS for stylesheets
+gem 'sass-rails', '~> 4.0.0'
+
+# We need rubyracer to use less
+gem 'therubyracer'
+
+# Use jquery as the JavaScript library
+gem 'jquery-rails'
+
+# devise for authentication
+gem 'devise'
+
+gem 'protected_attributes'
+gem 'less-rails'
+
+group :development do
+  gem 'quiet_assets'
+  gem 'foreman'
+  gem 'dotenv-rails'
+end
+
+group :doc do
+  # bundle exec rake doc:rails generates the API under doc/api.
+  gem 'sdoc', require: false
+end

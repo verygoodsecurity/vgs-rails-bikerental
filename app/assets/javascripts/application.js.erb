@@ -1,0 +1,13 @@
+//= require jquery
+//= require main.js
+//= require_self
+
+var csrf = '<%= "#{ENV['BALANCED_CSRF']}" %>'
+
+// configure everything when jquery is ready
+$(function () {
+    rentmybike.init({
+        csrfToken: csrf
+    });
+});
+
