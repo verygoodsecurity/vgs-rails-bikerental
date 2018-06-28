@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140902210522) do
+ActiveRecord::Schema.define(version: 20180628202522) do
+
+  create_table "bank_accounts", force: :cascade do |t|
+    t.string   "account_number"
+    t.string   "routing_number"
+    t.string   "name"
+    t.string   "account_type"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "user_id"
+  end
+
+  add_index "bank_accounts", ["user_id"], name: "index_bank_accounts_on_user_id"
 
   create_table "listings", force: :cascade do |t|
     t.integer  "bicycle_id"
@@ -24,6 +36,18 @@ ActiveRecord::Schema.define(version: 20140902210522) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "payment_cards", force: :cascade do |t|
+    t.string   "card_number",      limit: 19
+    t.integer  "expiration_year"
+    t.integer  "expiration_month"
+    t.integer  "security_code"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.integer  "user_id"
+  end
+
+  add_index "payment_cards", ["user_id"], name: "index_payment_cards_on_user_id"
 
   create_table "rentals", force: :cascade do |t|
     t.integer  "owner_id"

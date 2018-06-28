@@ -6,15 +6,18 @@ class Listing < ActiveRecord::Base
 
   def rent(params = {})
     renter = params[:renter]
-    user = params[:user] || User.find_by(customer_href: renter.href)
+    user = params[:user] || User.find_by(id: renter.id)
     user_id = user.nil? ? nil : user.id
 
-    # TODO: if a renter already has a valid card, then, use that to charge
+    # if a renter already has a valid card, then, use that to charge
     # otherwise, the card_href should be used as the source
 
-    card = Vgs::Card.fetch(params[:card_href])
-    card.associate_to_customer(renter)
+    card = renter.vgs_payment_card
+    if card.nil?
+      card = PaymentCard.find_by(params[:card_id])
+    end
 
+=begin
     # create an Order
     order = self.user.vgs_customer.create_order(
       description: self.description
@@ -25,7 +28,7 @@ class Listing < ActiveRecord::Base
       source: card,
       amount: self.price,
       description: self.description,
-      appears_on_statement_as: 'RentMyBike Rental'
+      appears_on_statement_as: 'BikeRental Rental'
     )
 
     # credit the owner of bicycle for the amount of listing
@@ -40,12 +43,13 @@ class Listing < ActiveRecord::Base
       description: self.description,
       appears_on_statement_as: 'RMyBike Payout'
     )
+=end
 
     rental = Rental.new(
       listing_id: self.id,
       buyer_id: user_id,
       owner_id: self.user.id,
-      order_href: order.href
+      order_href: 'n/a'
     )
     rental.save
   end

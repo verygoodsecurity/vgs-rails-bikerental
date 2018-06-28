@@ -1,4 +1,4 @@
-RentMyBike::Application.routes.draw do
+BikeRental::Application.routes.draw do
   devise_for :users
 
   resources :listings, :rentals

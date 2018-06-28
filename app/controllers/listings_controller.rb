@@ -12,13 +12,17 @@ class ListingsController < ApplicationController
 
   def create
     owner_customer = current_user.vgs_customer
-    bank_account_href = params[:bank_account_href]
+
+    # build bank account from fields
+    bank_account = BankAccount.create(
+      account_number: params[:account_number],
+      routing_number: params[:routing_number],
+      account_type: params[:account_type],
+      name: params[:name],
+      user: owner_customer
+    )
 
     # add bank account href passed back from secureform
-    bank_account = Vgs::BankAccount.fetch(bank_account_href)
-    bank_account.associate_to_customer(owner_customer)
-    current_user.bank_account_href = bank_account.href
-    current_user.save
 
     @listing = current_user.listings.new(
       title: params[:listing_title],

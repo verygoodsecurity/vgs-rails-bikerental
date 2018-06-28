@@ -4,19 +4,15 @@ user = User.create(email: 'asdf@asdf.com',
                    password: 'asdfasdf',
                    password_confirmation: 'asdfasdf')
 
-# create a bicycle owner
-owner = user.vgs_customer
-
 # add a bank account to be able to receive payments (credits)
-bank_account = Vgs::BankAccount.new(
+bank_account = BankAccount.create(
                  account_number: '1234567980',
                  routing_number: '011500337',
                  name: 'Jimbo Jenkins',
-                 account_type: 'checking'
-               ).save
+                 account_type: 'checking',
+                 user: user
+               )
 
-bank_account.associate_to_customer(owner)
-user.bank_account_href = bank_account.href
 user.save
 
 Listing.create(

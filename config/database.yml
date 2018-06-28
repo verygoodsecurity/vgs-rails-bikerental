@@ -19,13 +19,13 @@ production:
 #   adapter: sqlite3
 #   host: localhost
 #   encoding: unicode
-#   database: rentmybike_dev
+#   database: BikeRental_dev
 #   pool: 5
 
 # test:
 #   adapter: sqlite3
 #   encoding: unicode
-#   database: rentmybike_test
+#   database: BikeRental_test
 #   pool: 5
 
 # # Add the below...
@@ -34,7 +34,7 @@ production:
 #   adapter: postgresql
 #   host: localhost
 #   encoding: unicode
-#   database: rentmybike_production
+#   database: BikeRental_production
 #   pool: 5
 #   username:
 #   password:
