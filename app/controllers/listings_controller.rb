@@ -11,11 +11,11 @@ class ListingsController < ApplicationController
   end
 
   def create
-    owner_customer = current_user.balanced_customer
+    owner_customer = current_user.vgs_customer
     bank_account_href = params[:bank_account_href]
 
-    # add bank account href passed back from balanced.js
-    bank_account = Balanced::BankAccount.fetch(bank_account_href)
+    # add bank account href passed back from secureform
+    bank_account = Vgs::BankAccount.fetch(bank_account_href)
     bank_account.associate_to_customer(owner_customer)
     current_user.bank_account_href = bank_account.href
     current_user.save

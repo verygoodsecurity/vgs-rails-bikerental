@@ -47,13 +47,13 @@
         if (!name) {
             addErrorToField($form, 'name');
         }
-        if (!balanced.emailAddress.validate(emailAddress)) {
+        if (!vgs.emailAddress.validate(emailAddress)) {
             addErrorToField($form, 'email_address');
         }
-        if (!balanced.card.isCardNumberValid(cardData.number)) {
+        if (!vgs.card.isCardNumberValid(cardData.number)) {
             addErrorToField($form, 'number');
         }
-        if (!balanced.card.isExpiryValid(cardData.expiration_month, cardData.expiration_year)) {
+        if (!vgs.card.isExpiryValid(cardData.expiration_month, cardData.expiration_year)) {
             addErrorToField($form, 'expiration_month');
             addErrorToField($form, 'expiration_year');
         }
@@ -65,7 +65,7 @@
         // submit
         disableForm($form);
         showProcessing('Processing payment...', 33);
-        balanced.card.create(cardData, completePurchase);
+        vgs.card.create(cardData, completePurchase);
     };
     var completePurchase = function (response) {
         var $form = $('form#purchase');
@@ -97,9 +97,9 @@
                 }
                 break;
             case 500:
-                console.error('Balanced did something bad, this will never happen, but if it does please retry the request');
+                console.error('VGS did something bad, this will never happen, but if it does please retry the request');
                 console.error(response.error);
-                showError('Balanced did something bad, please retry the request');
+                showError('VGS did something bad, please retry the request');
                 break;
         }
     };
@@ -126,7 +126,7 @@
             addErrorToField($form, 'name');
         }
 
-        if (!balanced.emailAddress.validate(merchantData.email_address)) {
+        if (!vgs.emailAddress.validate(merchantData.email_address)) {
             addErrorToField($form, 'email_address');
         }
 
@@ -145,7 +145,7 @@
         var hasBankAccount = false;
         if (merchantData.account_number || merchantData.routing_number) {
             hasBankAccount = true;
-            if (!balanced.bankAccount.validateRoutingNumber(merchantData.routing_number)) {
+            if (!vgs.bankAccount.validateRoutingNumber(merchantData.routing_number)) {
                 addErrorToField($form, 'routing_number');
             }
             if (!merchantData.account_number) {
@@ -162,7 +162,7 @@
             e.preventDefault();
             disableForm($form);
             showProcessing('Adding bank account...', 33);
-            balanced.bankAccount.create(merchantData, onBankAccountTokenized);
+            vgs.bankAccount.create(merchantData, onBankAccountTokenized);
         }
     };
     var onBankAccountTokenized = function (response) {

@@ -13,20 +13,20 @@ class User < ActiveRecord::Base
 
   has_many :listings
 
-  def balanced_bank_account
-    return Balanced::Customer.fetch(self.bank_account_href) if self.bank_account_href
+  def vgs_bank_account
+    return Vgs::Customer.fetch(self.bank_account_href) if self.bank_account_href
   end
 
-  def balanced_customer
-    return Balanced::Customer.fetch(self.customer_href) if self.customer_href
+  def vgs_customer
+    return Vgs::Customer.fetch(self.customer_href) if self.customer_href
 
     begin
-      customer = self.class.create_balanced_customer(
+      customer = self.class.create_vgs_customer(
         :name   => self.name,
         :email  => self.email
         )
     rescue
-      'There was error fetching the Balanced customer'
+      'There was error fetching the vgs customer'
     end
 
     self.customer_href = customer.href
@@ -35,9 +35,9 @@ class User < ActiveRecord::Base
     customer
   end
 
-  def self.create_balanced_customer(params = {})
+  def self.create_vgs_customer(params = {})
     begin
-      Balanced::Customer.new(
+      VGS::Customer.new(
         :name   => params[:name],
         :email  => params[:email]
       ).save

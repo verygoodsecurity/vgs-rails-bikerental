@@ -2,7 +2,7 @@ class RentalsController < ApplicationController
 
   def create
     # user represents a user in our database who wants to rent a bicycle
-    # buyer is a Balanced::Customer object that knows about payment information for user
+    # buyer is a VGS::Customer object that knows about payment information for user
     # or guest who wants to rent a bicycle
 
     buyer, user = nil, nil
@@ -10,9 +10,9 @@ class RentalsController < ApplicationController
     # logic to handle guest/not signed in users
 
     if user_signed_in?
-      buyer = current_user.balanced_customer
+      buyer = current_user.vgs_customer
     else
-      buyer = User.create_balanced_customer(
+      buyer = User.create_vgs_customer(
         :name  => params[:"guest-name"],
         :email => params[:"guest-email_address"]
       )

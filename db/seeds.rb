@@ -5,10 +5,10 @@ user = User.create(email: 'asdf@asdf.com',
                    password_confirmation: 'asdfasdf')
 
 # create a bicycle owner
-owner = user.balanced_customer
+owner = user.vgs_customer
 
 # add a bank account to be able to receive payments (credits)
-bank_account = Balanced::BankAccount.new(
+bank_account = Vgs::BankAccount.new(
                  account_number: '1234567980',
                  routing_number: '011500337',
                  name: 'Jimbo Jenkins',

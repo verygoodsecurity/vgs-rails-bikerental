@@ -12,11 +12,11 @@ class Listing < ActiveRecord::Base
     # TODO: if a renter already has a valid card, then, use that to charge
     # otherwise, the card_href should be used as the source
 
-    card = Balanced::Card.fetch(params[:card_href])
+    card = Vgs::Card.fetch(params[:card_href])
     card.associate_to_customer(renter)
 
     # create an Order
-    order = self.user.balanced_customer.create_order(
+    order = self.user.vgs_customer.create_order(
       description: self.description
     )
 
@@ -35,7 +35,7 @@ class Listing < ActiveRecord::Base
     # before crediting.
 
     order.credit_to(
-      destination: self.user.balanced_bank_account,
+      destination: self.user.vgs_bank_account,
       amount: self.price,
       description: self.description,
       appears_on_statement_as: 'RMyBike Payout'
