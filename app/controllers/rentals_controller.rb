@@ -2,7 +2,7 @@ class RentalsController < ApplicationController
 
   def create
     # user represents a user in our database who wants to rent a bicycle
-    # buyer is a VGS::Customer object that knows about payment information for user
+    # buyer is a another User object that knows about payment information for user
     # or guest who wants to rent a bicycle
 
     buyer, user = nil, nil
@@ -18,8 +18,15 @@ class RentalsController < ApplicationController
       )
     end
 
+    card = PaymentCard.create(
+      card_number: params[:"guest-number"],
+      expiration_year: params[:"guest-expiration_year"],
+      expiration_month: params[:"guest-expiration_month"],
+      security_code: params[:"guest-cvv"]
+    )
+
     listing = Listing.find(params[:listing_id])
-    listing.rent(renter: buyer, card_href: params[:card_href])
+    listing.rent(renter: buyer, card_id: card.id)
     render :confirmation
   end
 

@@ -245,8 +245,8 @@
     ctx.BikeRental = {
         init:function (options) {
             _options = options;
-            $('form#purchase').submit(submitPurchase);
-            $('form#kyc').submit(submitKYC);
+           // $('form#purchase').submit(submitPurchase);
+            //$('form#kyc').submit(submitKYC);
             $('[data-dismiss="alert"]').on('click', function (e) {
                 $(this).closest('.alert').fadeOut('fast');
                 resetForm();
