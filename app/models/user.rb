@@ -14,11 +14,11 @@ class User < ActiveRecord::Base
   has_many :listings
 
   def vgs_bank_account
-    return Vgs::Customer.fetch(self.bank_account_href) if self.bank_account_href
+    return VGS::Customer.fetch(self.bank_account_href) if self.bank_account_href
   end
 
   def vgs_customer
-    return Vgs::Customer.fetch(self.customer_href) if self.customer_href
+    return VGS::Customer.fetch(self.customer_href) if self.customer_href
 
     begin
       customer = self.class.create_vgs_customer(

@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-RentMyBike::Application.load_tasks
+BikeRental::Application.load_tasks

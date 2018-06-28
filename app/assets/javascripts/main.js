@@ -242,7 +242,7 @@
         sensitiveFields = sensitiveFields.join(',');
         $form.find(sensitiveFields).remove();
     };
-    ctx.rentmybike = {
+    ctx.BikeRental = {
         init:function (options) {
             _options = options;
             $('form#purchase').submit(submitPurchase);

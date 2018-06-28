@@ -8,7 +8,7 @@ user = User.create(email: 'asdf@asdf.com',
 owner = user.vgs_customer
 
 # add a bank account to be able to receive payments (credits)
-bank_account = Vgs::BankAccount.new(
+bank_account = VGS::BankAccount.new(
                  account_number: '1234567980',
                  routing_number: '011500337',
                  name: 'Jimbo Jenkins',

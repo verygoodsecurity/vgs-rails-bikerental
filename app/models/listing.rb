@@ -12,7 +12,7 @@ class Listing < ActiveRecord::Base
     # TODO: if a renter already has a valid card, then, use that to charge
     # otherwise, the card_href should be used as the source
 
-    card = Vgs::Card.fetch(params[:card_href])
+    card = VGS::Card.fetch(params[:card_href])
     card.associate_to_customer(renter)
 
     # create an Order
@@ -25,7 +25,7 @@ class Listing < ActiveRecord::Base
       source: card,
       amount: self.price,
       description: self.description,
-      appears_on_statement_as: 'RentMyBike Rental'
+      appears_on_statement_as: 'BikeRental Rental'
     )
 
     # credit the owner of bicycle for the amount of listing
