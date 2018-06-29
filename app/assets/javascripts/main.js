@@ -1,257 +1,308 @@
-(function ($) {
-    $.fn.serializeObject = function () {
-        var o = {};
-        var a = this.serializeArray();
-        $.each(a, function () {
-            if (o[this.name] !== undefined) {
-                if (!o[this.name].push) {
-                    o[this.name] = [o[this.name]];
-                }
-                o[this.name].push(this.value || '');
-            } else {
-                o[this.name] = this.value || '';
-            }
+const f = SecureForm.create('Rails-4.1', function(state) {
+document.getElementById('').innerText = JSON.stringify(state, null, '  ');
+});
+
+const field = f.field('#cc-name .fake-input', {
+type: 'text',
+name: 'cardName',
+color: '#ff00ff',
+placeholder: 'Joe Business',
+validations: ['required'],
+});
+
+f.field('#cc-number .fake-input', {
+type: 'card-number',
+name: 'cardNumber',
+successColor: 'green',
+errorColor: 'red',
+placeholder: '4111 1111 1111 1111',
+validations: ['required', 'validCardNumber'],
+});
+
+f.field('#cc-cvc .fake-input', {
+type: 'card-security-code',
+name: 'cardCvc',
+placeholder: '344',
+validations: ['required', 'validCardSecurityCode'],
+});
+
+document.querySelectorAll('label')
+    .forEach(function(el) {
+        el.addEventListener('click', function(t) {
+        field.focus();
         });
-        return o;
-    };
-})(jQuery);
+    });
 
-
-(function (ctx) {
-    'use strict';
-    var _options;
-    var isCalling;
-    var submitPurchase = function (e) {
-        var $form = $('form#purchase');
-        if ($form.find('input:visible').length == 0) {
-            //  this is the repeat flow, let it happen naturally
-            return;
-        }
+document.getElementById('cc-form')
+    .addEventListener('submit', function(e) {
         e.preventDefault();
+        f.submit('/rentals?method=post', {
+        headers: {
+            'x-custom-header': 'Used SecureForm, you have',
+            'x-application': 'TLF 0.1',
+        },
+        data: {
+            type: 'card',
+        },
+        }, function(status, data) {
+        document.getElementById('response').innerText = JSON.stringify(data, null, '  ');
+        });
+    }, false);
+  
+// (function ($) {
+// $.fn.serializeObject = function () {
+//     var o = {};
+//     var a = this.serializeArray();
+//     $.each(a, function () {
+//         if (o[this.name] !== undefined) {
+//             if (!o[this.name].push) {
+//                 o[this.name] = [o[this.name]];
+//             }
+//             o[this.name].push(this.value || '');
+//         } else {
+//             o[this.name] = this.value || '';
+//         }
+//     });
+//     return o;
+// };
+// })(jQuery);
 
-        resetForm($form);
 
-        //  build data to submit
-        var cardData = $form.serializeObject();
+// (function (ctx) {
+// 'use strict';
+// var _options;
+// var isCalling;
+// var submitPurchase = function (e) {
+//     var $form = $('form#purchase');
+//     if ($form.find('input:visible').length == 0) {
+//         //  this is the repeat flow, let it happen naturally
+//         return;
+//     }
+//     e.preventDefault();
 
-        for (var key in cardData) {
-            var trimmedKey = key.replace('guest-', '').replace('purchase-', '');
-            cardData[trimmedKey] = cardData[key];
-            delete cardData[key];
-        }
+//     resetForm($form);
 
-        var name = $('[name$="name"]', $form).val();
-        var emailAddress = $('[name$="email_address"]', $form).val();
+//     //  build data to submit
+//     var cardData = $form.serializeObject();
 
-        //  validate form
-        if (!name) {
-            addErrorToField($form, 'name');
-        }
-        if (!vgs.emailAddress.validate(emailAddress)) {
-            addErrorToField($form, 'email_address');
-        }
-        if (!vgs.card.isCardNumberValid(cardData.number)) {
-            addErrorToField($form, 'number');
-        }
-        if (!vgs.card.isExpiryValid(cardData.expiration_month, cardData.expiration_year)) {
-            addErrorToField($form, 'expiration_month');
-            addErrorToField($form, 'expiration_year');
-        }
+//     for (var key in cardData) {
+//         var trimmedKey = key.replace('guest-', '').replace('purchase-', '');
+//         cardData[trimmedKey] = cardData[key];
+//         delete cardData[key];
+//     }
 
-        if ($form.find('.control-group.error').length) {
-            return;
-        }
+//     var name = $('[name$="name"]', $form).val();
+//     var emailAddress = $('[name$="email_address"]', $form).val();
 
-        // submit
-        disableForm($form);
-        showProcessing('Processing payment...', 33);
-        vgs.card.create(cardData, completePurchase);
-    };
-    var completePurchase = function (response) {
-        var $form = $('form#purchase');
-        var sensitiveFields = ['number', 'cvv', 'expiration_month', 'expiration_year'];
-        hideProcessing();
-        switch (response.status_code) {
-            case 201:
-                showProcessing('Renting bike...', 66);
-                // IMPORTANT - remove sensitive data to remain PCI compliant
-                removeSensitiveFields($form, sensitiveFields);
-                $form.find('input').removeAttr('disabled');
-                $('<input type="hidden" name="card_href" value="' + response.cards[0].href + '">').appendTo($form);
-                $form.unbind('submit', submitPurchase).submit();
-                break;
-            case 400:
-                var fields = ['number', 'expiration_month', 'expiration_year', 'cvv'];
-                var found = false;
-                for (var i = 0; i < fields.length; i++) {
-                    var isIn = response.error.description.indexOf(fields[i]) >= 0;
-                    console.log(isIn, fields[i], response.error.description);
-                    if (isIn) {
-                        resetForm($form);
-                        addErrorToField($form, fields[i]);
-                    }
-                }
-                if (!found) {
-                    console.warn('missing field - check response.error for details');
-                    console.warn(response.error);
-                }
-                break;
-            case 500:
-                console.error('VGS did something bad, this will never happen, but if it does please retry the request');
-                console.error(response.error);
-                showError('VGS did something bad, please retry the request');
-                break;
-        }
-    };
-    var submitKYC = function (e) {
-        var $form = $('form#kyc');
-        $form.find('.control-group').removeClass('error');
+//     //  validate form
+//     if (!name) {
+//         addErrorToField($form, 'name');
+//     }
+//     if (!vgs.emailAddress.validate(emailAddress)) {
+//         addErrorToField($form, 'email_address');
+//     }
+//     if (!vgs.card.isCardNumberValid(cardData.number)) {
+//         addErrorToField($form, 'number');
+//     }
+//     if (!vgs.card.isExpiryValid(cardData.expiration_month, cardData.expiration_year)) {
+//         addErrorToField($form, 'expiration_month');
+//         addErrorToField($form, 'expiration_year');
+//     }
 
-        //  validate form
-        var merchantData = $form.serializeObject();
+//     if ($form.find('.control-group.error').length) {
+//         return;
+//     }
 
-        for (var key in merchantData) {
-            var trimmedKey = key.replace('guest-', '').replace('listing-', '');
-            merchantData[trimmedKey] = merchantData[key];
-            if (key != trimmedKey) {
-                delete merchantData[key];
-            }
-        }
+//     // submit
+//     disableForm($form);
+//     showProcessing('Processing payment...', 33);
+//     vgs.card.create(cardData, completePurchase);
+// };
+// var completePurchase = function (response) {
+//     var $form = $('form#purchase');
+//     var sensitiveFields = ['number', 'cvv', 'expiration_month', 'expiration_year'];
+//     hideProcessing();
+//     switch (response.status_code) {
+//         case 201:
+//             showProcessing('Renting bike...', 66);
+//             // IMPORTANT - remove sensitive data to remain PCI compliant
+//             removeSensitiveFields($form, sensitiveFields);
+//             $form.find('input').removeAttr('disabled');
+//             $('<input type="hidden" name="card_href" value="' + response.cards[0].href + '">').appendTo($form);
+//             $form.unbind('submit', submitPurchase).submit();
+//             break;
+//         case 400:
+//             var fields = ['number', 'expiration_month', 'expiration_year', 'cvv'];
+//             var found = false;
+//             for (var i = 0; i < fields.length; i++) {
+//                 var isIn = response.error.description.indexOf(fields[i]) >= 0;
+//                 console.log(isIn, fields[i], response.error.description);
+//                 if (isIn) {
+//                     resetForm($form);
+//                     addErrorToField($form, fields[i]);
+//                 }
+//             }
+//             if (!found) {
+//                 console.warn('missing field - check response.error for details');
+//                 console.warn(response.error);
+//             }
+//             break;
+//         case 500:
+//             console.error('VGS did something bad, this will never happen, but if it does please retry the request');
+//             console.error(response.error);
+//             showError('VGS did something bad, please retry the request');
+//             break;
+//     }
+// };
+// var submitKYC = function (e) {
+//     var $form = $('form#kyc');
+//     $form.find('.control-group').removeClass('error');
 
-        merchantData.dob = merchantData.date_of_birth_year + '-' + merchantData.date_of_birth_month;
-        delete merchantData.date_of_birth_year;
-        delete merchantData.date_of_birth_month;
+//     //  validate form
+//     var merchantData = $form.serializeObject();
 
-        if (!merchantData.name) {
-            addErrorToField($form, 'name');
-        }
+//     for (var key in merchantData) {
+//         var trimmedKey = key.replace('guest-', '').replace('listing-', '');
+//         merchantData[trimmedKey] = merchantData[key];
+//         if (key != trimmedKey) {
+//             delete merchantData[key];
+//         }
+//     }
 
-        if (!vgs.emailAddress.validate(merchantData.email_address)) {
-            addErrorToField($form, 'email_address');
-        }
+//     merchantData.dob = merchantData.date_of_birth_year + '-' + merchantData.date_of_birth_month;
+//     delete merchantData.date_of_birth_year;
+//     delete merchantData.date_of_birth_month;
 
-        if (!merchantData.street_address) {
-            addErrorToField($form, 'street_address');
-        }
+//     if (!merchantData.name) {
+//         addErrorToField($form, 'name');
+//     }
 
-        if (!merchantData.postal_code) {
-            addErrorToField($form, 'postal_code');
-        }
+//     if (!vgs.emailAddress.validate(merchantData.email_address)) {
+//         addErrorToField($form, 'email_address');
+//     }
 
-        if (!merchantData.phone_number) {
-            addErrorToField($form, 'phone_number');
-        }
+//     if (!merchantData.street_address) {
+//         addErrorToField($form, 'street_address');
+//     }
 
-        var hasBankAccount = false;
-        if (merchantData.account_number || merchantData.routing_number) {
-            hasBankAccount = true;
-            if (!vgs.bankAccount.validateRoutingNumber(merchantData.routing_number)) {
-                addErrorToField($form, 'routing_number');
-            }
-            if (!merchantData.account_number) {
-                addErrorToField($form, 'account_number');
-            }
-        }
+//     if (!merchantData.postal_code) {
+//         addErrorToField($form, 'postal_code');
+//     }
 
-        if ($form.find('.control-group.error').length) {
-            e.preventDefault();
-            return;
-        }
+//     if (!merchantData.phone_number) {
+//         addErrorToField($form, 'phone_number');
+//     }
 
-        if (hasBankAccount) {
-            e.preventDefault();
-            disableForm($form);
-            showProcessing('Adding bank account...', 33);
-            vgs.bankAccount.create(merchantData, onBankAccountTokenized);
-        }
-    };
-    var onBankAccountTokenized = function (response) {
-        var $form = $('#kyc');
-        hideProcessing();
-        console.log(response);
-        switch (response.status_code) {
-            case 201:
-                $form.find('input,select').removeAttr('disabled');
-                showProcessing('Performing identity check...', 66);
-                $('<input type="hidden" name="bank_account_href" value="' + response.bank_accounts[0].href + '">').appendTo($form);
-                $form.unbind('submit', submitKYC).submit();
-            //  todo - what if we have a 409?
-        }
-    };
-    var showProcessing = function (message, progress) {
-        progress = progress || 50;
-        var $loader = $('.loading');
-        if (!$loader.length) {
-            $loader = $(
-                '<div class="loading">' +
-                    '<div class="progress progress-striped active">' +
-                    '<div class="bar"></div>' +
-                    '</div>' +
-                    '<p>&nbsp;</p>' +
-                    '</div>');
-            $loader.appendTo('body');
-        }
-        $loader.find('.bar').css({width:progress + '%'});
-        $loader.find('p').text(message);
-        $loader.css({
-            left:$('body').width() / 2 - $loader.width() / 4,
-            top:'400px'
-        }).show();
-    };
-    var hideProcessing = function () {
-        $('.loading').hide();
-    };
-    var showError = function (message) {
-        var $alert = $('.alert:visible');
-        if ($alert.length) {
-            $alert.remove();
-        }
-        $alert = $(
-            '<div class="alert alert-absolute alert-block alert-error">' +
-                '<button class="close" data-dismiss="alert">&times;</button>' +
-                '<h4 class="alert-heading">Error!</h4>' +
-                message +
-                '</div>');
-        $alert.appendTo('body').css({
-            left:$('body').width() / 2 - $alert.width() / 4,
-            top:'400px'
-        }).show();
-    };
-    var hideError = function () {
-        $('.alert').hide();
-    };
-    var resetForm = function ($form) {
-        if (!$form) {
-            $form = $('form');
-        }
-        $form.find('.control-group').removeClass('error');
-        $form.find('input,button,select').removeAttr('disabled');
-    };
-    var disableForm = function ($form) {
-        $form.find('input, button, select').attr('disabled', 'disabled');
-    };
-    var addErrorToField = function ($form, fieldName) {
-        $form.find('[name$="' + fieldName + '"]')
-            .closest('.control-group')
-            .addClass('error');
-    };
-    var removeSensitiveFields = function ($form, sensitiveFields) {
-        for (var i = 0; i < sensitiveFields.length; i++) {
-            sensitiveFields[i] = '[name$="' + sensitiveFields[i] + '"]';
-        }
-        sensitiveFields = sensitiveFields.join(',');
-        $form.find(sensitiveFields).remove();
-    };
-    ctx.BikeRental = {
-        init:function (options) {
-            _options = options;
-           // $('form#purchase').submit(submitPurchase);
-            //$('form#kyc').submit(submitKYC);
-            $('[data-dismiss="alert"]').on('click', function (e) {
-                $(this).closest('.alert').fadeOut('fast');
-                resetForm();
-                e.preventDefault();
-            });
-        }
-    };
-})(this);
+//     var hasBankAccount = false;
+//     if (merchantData.account_number || merchantData.routing_number) {
+//         hasBankAccount = true;
+//         if (!vgs.bankAccount.validateRoutingNumber(merchantData.routing_number)) {
+//             addErrorToField($form, 'routing_number');
+//         }
+//         if (!merchantData.account_number) {
+//             addErrorToField($form, 'account_number');
+//         }
+//     }
+
+//     if ($form.find('.control-group.error').length) {
+//         e.preventDefault();
+//         return;
+//     }
+
+//     if (hasBankAccount) {
+//         e.preventDefault();
+//         disableForm($form);
+//         showProcessing('Adding bank account...', 33);
+//         vgs.bankAccount.create(merchantData, onBankAccountTokenized);
+//     }
+// };
+// var onBankAccountTokenized = function (response) {
+//     var $form = $('#kyc');
+//     hideProcessing();
+//     console.log(response);
+//     switch (response.status_code) {
+//         case 201:
+//             $form.find('input,select').removeAttr('disabled');
+//             showProcessing('Performing identity check...', 66);
+//             $('<input type="hidden" name="bank_account_href" value="' + response.bank_accounts[0].href + '">').appendTo($form);
+//             $form.unbind('submit', submitKYC).submit();
+//         //  todo - what if we have a 409?
+//     }
+// };
+// var showProcessing = function (message, progress) {
+//     progress = progress || 50;
+//     var $loader = $('.loading');
+//     if (!$loader.length) {
+//         $loader = $(
+//             '<div class="loading">' +
+//                 '<div class="progress progress-striped active">' +
+//                 '<div class="bar"></div>' +
+//                 '</div>' +
+//                 '<p>&nbsp;</p>' +
+//                 '</div>');
+//         $loader.appendTo('body');
+//     }
+//     $loader.find('.bar').css({width:progress + '%'});
+//     $loader.find('p').text(message);
+//     $loader.css({
+//         left:$('body').width() / 2 - $loader.width() / 4,
+//         top:'400px'
+//     }).show();
+// };
+// var hideProcessing = function () {
+//     $('.loading').hide();
+// };
+// var showError = function (message) {
+//     var $alert = $('.alert:visible');
+//     if ($alert.length) {
+//         $alert.remove();
+//     }
+//     $alert = $(
+//         '<div class="alert alert-absolute alert-block alert-error">' +
+//             '<button class="close" data-dismiss="alert">&times;</button>' +
+//             '<h4 class="alert-heading">Error!</h4>' +
+//             message +
+//             '</div>');
+//     $alert.appendTo('body').css({
+//         left:$('body').width() / 2 - $alert.width() / 4,
+//         top:'400px'
+//     }).show();
+// };
+// var hideError = function () {
+//     $('.alert').hide();
+// };
+// var resetForm = function ($form) {
+//     if (!$form) {
+//         $form = $('form');
+//     }
+//     $form.find('.control-group').removeClass('error');
+//     $form.find('input,button,select').removeAttr('disabled');
+// };
+// var disableForm = function ($form) {
+//     $form.find('input, button, select').attr('disabled', 'disabled');
+// };
+// var addErrorToField = function ($form, fieldName) {
+//     $form.find('[name$="' + fieldName + '"]')
+//         .closest('.control-group')
+//         .addClass('error');
+// };
+// var removeSensitiveFields = function ($form, sensitiveFields) {
+//     for (var i = 0; i < sensitiveFields.length; i++) {
+//         sensitiveFields[i] = '[name$="' + sensitiveFields[i] + '"]';
+//     }
+//     sensitiveFields = sensitiveFields.join(',');
+//     $form.find(sensitiveFields).remove();
+// };
+// ctx.BikeRental = {
+//     init:function (options) {
+//         _options = options;
+//         // $('form#purchase').submit(submitPurchase);
+//         //$('form#kyc').submit(submitKYC);
+//         $('[data-dismiss="alert"]').on('click', function (e) {
+//             $(this).closest('.alert').fadeOut('fast');
+//             resetForm();
+//             e.preventDefault();
+//         });
+//     }
+// };
+// })(this);

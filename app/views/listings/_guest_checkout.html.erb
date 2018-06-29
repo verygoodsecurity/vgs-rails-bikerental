@@ -2,18 +2,18 @@
     <div class="span7 box">
         <h1>Checkout</h1>
         <div class="span6 offset1">
-            <%= form_tag({:controller => 'rentals', :action => 'create', :method => 'post'}, {:id => 'purchase'}) do %>
+            <%= form_tag({:controller => 'rentals', :action => 'create', :method => 'post'}, {:id => 'cc-form'}) do %>
             <p>
               I already have an account.
               <%= link_to('Sign me in', user_session_path) %>
             </p>
             <div>
               <label>Name on Card</label>
-              <input type="text" id="guest-name" name="guest-name" autocomplete="off" />
+              <input type="text" id="card-name" name="cardName" autocomplete="off" />
             </div>
             <div>
               <label>Card Number</label>
-              <input type="text" id="guest-number" name="guest-number" autocomplete="off" maxlength="16" />
+              <input type="text" id="card-number" name="cardNumber" autocomplete="off"/>
             </div>
             <div>
               <label>Expiration</label>
@@ -22,7 +22,7 @@
             </div>
             <div>
               <label>Card Verification Code (CVV)</label>
-              <input type="text" id="guest-cvv" name="guest-cvv" class="span1" autocomplete="off" maxlength="4" />
+              <input type="text" id="card-cvc" name="cardCvc" class="span1" autocomplete="off" maxlength="4" />
             </div>
             <div>
               <label>Postal Code</label>
@@ -36,8 +36,9 @@
             <div>
               <%= submit_tag 'Rent', class: 'btn-primary' %>
             </div>
-            <% end %>
+            <% end %>         
             <a href="https://www.verygoodsecurity.com"><img src="https://www.verygoodsecurity.com/theme/ico/favicon/favicon-32x32.png" alt="Secured by vgs"></a>
         </div>
     </div>
 </div>
+<script src="https://js.verygoodvault.io/js-vgfield-2/joe-dev.js" name="secureForm" id="VGS-secure-form-master"></script>
