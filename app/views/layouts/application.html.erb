@@ -2,9 +2,9 @@
 <html>
 <head>
   <title>BikeRental</title>
-  <script type="text/javascript" src="https://js.verygoodvault.io/js-vgfield-2/joe-dev.js"></script>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
+  <script type="text/javascript" src="https://js.verygoodvault.io/js-vgfield-2/joe-dev.js"></script>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -14,6 +14,7 @@
             <% if user_signed_in? %>
                 <li><%= current_user.email %></li>
                 <li><%= link_to('Edit Account', edit_user_registration_path(current_user)) %></li>
+                <li><%= link_to('Check Payment Method', redirect_to: "users#show") %>
                 <li><%= link_to('Log out', destroy_user_session_path) %></li>
             <% else %>
                 <li><%= link_to('log in', new_user_session_path) %></li>
@@ -42,6 +43,5 @@
     <a href="https://github.com/verygoodsecurity/BikeRentals-rails" id="github">
     	<img src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub">
     </a>
-    <iframe src="https://js.verygoodvault.io/js-vgfield-2/joe-dev.js" name="secureForm" id="VGS-secure-form-master" frameborder="0" scrolling="no" allowtransparency="true" width="0" height="0" style="position:absolute;top:0;left:0;width:0;height:0"></iframe>
 </body>
 </html>
