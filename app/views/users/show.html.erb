@@ -1,3 +1,2 @@
-<% @cards.each do |card| %>
-   <%= render :partial => 'card', :locals => { :card => card } %>
-<% end %>
+<%= render :partial => 'card', locals: { :card => @card} %>
+

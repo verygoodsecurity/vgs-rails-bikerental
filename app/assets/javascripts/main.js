@@ -1,7 +1,7 @@
+
 window.onload=function(){
-const f = SecureForm.create('Rails-4.1', function(state) {
-    document.getElementById('').innerText = JSON.stringify(state, null, '  ');
-  });
+    const f = SecureForm.create('Rails-4.1', function(state) {
+ });
 
 const field = f.field('#cc-name .fake-input', {
     type: 'text',
@@ -14,22 +14,22 @@ const field = f.field('#cc-name .fake-input', {
 f.field('#guest #guest-name', {
     type: 'text',
     name: 'guest-name',
-    value: document.getElementById('guest-name').innerText,
+    defaultValue: document.getElementById('guest-name').value,
 });
 
 f.field('#guest-email-address #guest-email_address', {
     type: 'text',
     name: 'guest-email_address',
-    value: document.getElementById('guest-email_address').innerText,
+    defaultValue: document.getElementById('guest-email_address').value,
 });
 
 f.field('#cc-exp-month .fake-input', {
-    type: 'card-expiration-month',
+    type: 'text',
     name: 'guest-expiration_month',
 });
 
 f.field('#cc-exp-year .fake-input', {
-    type: 'card-expiration-year',
+    type: 'text',
     name: 'guest-expiration_year',
 });
 
@@ -50,9 +50,9 @@ f.field('#cc-cvc .fake-input', {
 });
 
 f.field('#listing #listing_id', {
-    type: 'number',
+    type: 'text',
     name: 'listing_id',
-    value: document.getElementById('listing_id').innerText,
+    defaultValue: document.getElementById("listing_id").value,
 });
 
 document.querySelectorAll('label')
@@ -67,10 +67,9 @@ document.getElementById('cc-form')
         e.preventDefault();
         f.submit('/rentals', {
         headers: {
-            'x-custom-header': 'Used SecureForm, you have',
+            'x-custom-header': 'It worked?',
         },
         data: {
-            type: 'card',
         },
         }, function(status, data) {
         document.getElementById('').innerText = JSON.stringify(data, null, '  ');

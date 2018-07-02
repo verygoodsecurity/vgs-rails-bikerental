@@ -1,9 +1,9 @@
 <div class="card_info">
     <div class="card_details">
         <ul>
-            <li><%= card.number %></li>
-            <li><%= card.exp_month %></li>
-            <li><%= card.exp_year %></li>
+            <% @card.each do |card| %>
+            <li><%= card.card_number =%></li>
+            <% end %>
         </ul>
     </div>
 </div>

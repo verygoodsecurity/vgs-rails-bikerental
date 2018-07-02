@@ -2,11 +2,11 @@ class Listing < ActiveRecord::Base
   belongs_to :user
   has_many :rentals
 
-  attr_accessible :name, :user_id, :location, :title, :description, :bicycle_type, :price
+  attr_accessible :name, :user_id, :location, :title, :description, :bicycle_type, :price, :renter
 
   def rent(params = {})
     renter = params[:renter]
-    user = params[:user] || User.find_by(id: renter.id)
+    user = params[:user_email]
     user_id = user.nil? ? nil : user.id
 
     
@@ -21,6 +21,6 @@ class Listing < ActiveRecord::Base
       owner_id: self.user.id,
       order_href: 'n/a'
     )
-    rental.save
+    rental.save    
   end
 end
