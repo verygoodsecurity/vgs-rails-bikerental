@@ -13,18 +13,20 @@ class RentalsController < ApplicationController
 
     respond_to do |format|
       if request.xhr?
+        format.json{
         buyer = User.find_by_email(params[:"guest-email_address"])
+        
 
-        @card = PaymentCard.create(
+        card = PaymentCard.new(
           card_number: params[:"guest-number"],
           expiration_year: params[:"guest-expiration_year"],
           expiration_month: params[:"guest-expiration_month"],
           security_code: params[:"guest-cvv"]
         )
+        card.save
 
-        listing.rent(renter: buyer, card_id: @card.id)
-        listing = Listing.find(params[:listing_id])
-        redirect_to rentals_url
+        listing.rent(renter: buyer, card_id: card.id)
+        listing = Listing.find(params[:listing_id])}
       else
         format.html {render :confirmation}
       end

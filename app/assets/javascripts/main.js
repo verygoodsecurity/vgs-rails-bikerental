@@ -65,13 +65,15 @@ document.querySelectorAll('label')
 document.getElementById('cc-form')
     .addEventListener('submit', function(e) {
         e.preventDefault();
-        f.submit('/rentals', {
+        f.submit('/rentals', 
+        {
         headers: {
             'x-custom-header': 'It worked?',
         },
         data: {
         },
         }, function(status, data) {
+        window.location.replace("https://6d0facc1.ngrok.io/rentals");
         document.getElementById('').innerText = JSON.stringify(data, null, '  ');
         });
     }, false);
