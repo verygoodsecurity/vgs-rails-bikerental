@@ -1,7 +1,7 @@
 <% if user_signed_in? %>
 
   <% current_user.payment_cards.each do |card| %>
-    <%= render :partial => 'card', :locals => { :card => card } %>
+    <%= render partial: 'card', locals: { card: card } %>
   <% end %>
 
 <% end %>

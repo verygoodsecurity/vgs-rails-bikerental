@@ -18,13 +18,13 @@ class RentalsController < ApplicationController
     )
     listing = Listing.find(params[:listing_id])
 
-    stripe = Stripe::Token.create(:card => {
-        :number => card.card_number,
-        :exp_month => card.expiration_month,
-        :exp_year => card.expiration_year,
-        :cvc => card.security_code
+    stripe = Stripe::Token.create(card: {
+        number: card.card_number,
+        exp_month: card.expiration_month,
+        exp_year: card.expiration_year,
+        cvc: card.security_code
     })
-    charge = Stripe::Charge.create(:amount => listing.price, :currency => 'USD', :source => stripe.id)
+    charge = Stripe::Charge.create(amount: listing.price, currency: 'USD', source: stripe.id)
 
     card.update(charge_id: charge.id)
     listing.rent(renter: renter, card_id: card.id)
