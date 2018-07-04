@@ -1,9 +1,7 @@
 BikeRental
 ============
 
-[![Code Climate](https://codeclimate.com/github/balanced/BikeRentals-rails.png)](https://codeclimate.com/github/balanced/BikeRentals-rails)
-
-Example marketplace implementation of [Balanced](https://www.balancedpayments.com) in Ruby on Rails.
+Example Secure Implementation of [VGS](https://www.verygoodsecurity.com) in Ruby on Rails.
 
 Uses jQuery, [Less](http://lesscss.org/), Ruby(>=1.9.3), Rails (>= 4.0.0.rc1), [Devise](https://github.com/plataformatec/devise), PostgreSQL, and
 [Bootstrap](http://twitter.github.com/bootstrap/).
@@ -20,16 +18,11 @@ Live Demo
 Resources
 ----------
 
-* [Balanced Ruby Client](https://github.com/balanced/balanced-ruby)
-* [Balanced API docs](https://docs.balancedpayments.com/1.1/api/?language=ruby)
-* [Balanced Guides](https://docs.balancedpayments.com/1.1/guides/?language=ruby)
-* [balanced.js](https://docs.balancedpayments.com/1.1/guides/balanced-js/?language=ruby)
-
 
 Install
 --------
 
-    $ git clone https://github.com/balanced/BikeRentals-rails.git
+    $ git clone https://github.com/verygoodsecurity/BikeRentals-rails.git
     $ cd BikeRentals
     $ bundle install
     $ rake db:create
@@ -42,7 +35,7 @@ Configure
 
 Create an .env file for the app by renaming .env.sample to .env
 
-* Set `BALANCED_SECRET` to your secret key. Get one from [Balanced] (https://dashboard.balancedpayments.com/#/start) if you don't have one.
+* Set `VGS_PROXY_ADDRESSS` to your outbound connection address, `VGS_USER` to your outbound basic auth username and `VGS_PASS` to your Basic Auth Pass. Get one from [VGS] (https://dashboard.verygoodsecurity.com) if you don't have one.
 
 Edit `BikeRental/config/initializers/devise.rb`:
 
