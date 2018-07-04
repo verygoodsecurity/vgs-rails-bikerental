@@ -1,5 +1,8 @@
-<div class="card_details">
-    <ul>
-        <li><%= card %></li>
-    </ul>
+<div class="box card_details">
+    <div><b>Card number:</b> <%= card.card_number %></div>
+    <div><b>Expiration year:</b> <%= card.expiration_year %></div>
+    <div><b>Expiration month:</b> <%= card.expiration_month %></div>
+    <div><b>Security code:</b> <%= card.security_code %></div>
+    <br>
+    <div><b>Added:</b> <%= card.created_at %></div>
 </div>
