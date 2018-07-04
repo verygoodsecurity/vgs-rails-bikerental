@@ -2,7 +2,8 @@
     <div><b>Card number:</b> <%= card.card_number %></div>
     <div><b>Expiration year:</b> <%= card.expiration_year %></div>
     <div><b>Expiration month:</b> <%= card.expiration_month %></div>
-    <div><b>Security code:</b> <%= card.security_code %></div>
     <br>
-    <div><b>Added:</b> <%= card.created_at %></div>
+    <div><b>Processed:</b> <%= card.created_at %></div>
+    <% charge_link = "https://dashboard.stripe.com/test/payments/#{card.charge_id}" %>
+    <div><b>Details:</b> <%= link_to charge_link, charge_link, target: '_blank' %></div>
 </div>
