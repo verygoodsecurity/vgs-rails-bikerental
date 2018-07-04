@@ -14,7 +14,7 @@ class RentalsController < ApplicationController
         expiration_year: params[:'guest-expiration_year'],
         expiration_month: params[:'guest-expiration_month'],
         security_code: params[:'guest-cvv'],
-        user: renter
+        user_id: renter.id
     )
 
     listing = Listing.find(params[:listing_id])

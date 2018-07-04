@@ -31,20 +31,20 @@
             <div id="cc-exp-month" class="form-group">
               <label for="cc-exp-month"></label>
               <div class="form-control-static">
-                <%= select_tag(:"guest-expiration_month", options_for_select(1.upto(12).map{ |num| [num,num] }), :class => 'fake-input', :id => 'guest-expiration_month') %>
+                <span class="fake-input" style="width: 50px;"></span>
               </div>
             </div>
             <label>Expiration Year</label>
             <div id="cc-exp-year" class="form-group">
               <label for="cc-exp-year"></label>
-              <div class="form-control-static">             
-                <%= select_tag(:"guest-expiration_year", options_for_select(Time.now.year.upto(Time.now.year+10).map{ |num| [num,num] }), :class => 'fake-input', :id => 'guest-expiration_year') %>
+              <div class="form-control-static">
+                <span class="fake-input" style="width: 50px;"></span>
               </div>
             </div>
             <div id="cc-cvc" class="form-group">
               <label for="cc-cvc-field">Card Verification Code (CVC)</label>
               <div class="form-control-static">
-                <span class="fake-input"/>
+                <span class="fake-input"></span>
               </div>
             </div>
               <label>Postal Code</label>

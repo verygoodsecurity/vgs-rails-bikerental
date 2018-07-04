@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180628202522) do
+ActiveRecord::Schema.define(version: 20180704154022) do
 
   create_table "bank_accounts", force: :cascade do |t|
     t.string   "account_number"
@@ -39,9 +39,9 @@ ActiveRecord::Schema.define(version: 20180628202522) do
 
   create_table "payment_cards", force: :cascade do |t|
     t.string   "card_number",      limit: 19
-    t.integer  "expiration_year"
-    t.integer  "expiration_month"
-    t.integer  "security_code"
+    t.string   "expiration_year"
+    t.string   "expiration_month"
+    t.string   "security_code"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.integer  "user_id"
