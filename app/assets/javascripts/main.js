@@ -62,19 +62,23 @@ document.querySelectorAll('label')
         });
     });
 
-document.getElementById('cc-form')
-    .addEventListener('submit', function(e) {
-        e.preventDefault();
-        f.submit('/rentals', 
-        {
-        headers: {
-            'x-custom-header': 'It worked?',
-        },
-        data: {
-        },
-        }, function(status, data) {
-        window.location.replace("https://6d0facc1.ngrok.io/rentals");
-        document.getElementById('').innerText = JSON.stringify(data, null, '  ');
-        });
-    }, false);
-}
+var frm = $('#cc-form');
+frm.submit(function(e) {
+  e.stopImmediatePropagation();
+  e.preventDefault();
+
+  $.ajax({
+    type: frm.attr('method'),
+    url: frm.attr('action'),
+    data: frm.serialize(),
+    success: function (data) {
+      window.location.href = '/rentals'
+    },
+    error: function (data) {
+      console.log('An error occurred.');
+      console.log(data);
+    }
+  });
+});
+
+};
