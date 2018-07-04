@@ -62,23 +62,15 @@ document.querySelectorAll('label')
         });
     });
 
-var frm = $('#cc-form');
-frm.submit(function(e) {
-  e.stopImmediatePropagation();
-  e.preventDefault();
-
-  $.ajax({
-    type: frm.attr('method'),
-    url: frm.attr('action'),
-    data: frm.serialize(),
-    success: function (data) {
-      window.location.href = '/rentals'
-    },
-    error: function (data) {
-      console.log('An error occurred.');
-      console.log(data);
-    }
-  });
-});
+document.getElementById('cc-form')
+  .addEventListener('submit', function(e) {
+      e.preventDefault();
+      f.submit('/rentals', {
+          headers: {},
+          data: {}
+      }, function(status, data) {
+          window.location.href = '/rentals';
+      });
+  }, false);
 
 };
