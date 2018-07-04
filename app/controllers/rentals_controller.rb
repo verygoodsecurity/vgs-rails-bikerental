@@ -18,6 +18,7 @@ class RentalsController < ApplicationController
     )
     listing = Listing.find(params[:listing_id])
 
+    # Stripe uses HTTP:Net client which allows proxy configuring by ENV['https_proxy']
     stripe = Stripe::Token.create(card: {
         number: card.card_number,
         exp_month: card.expiration_month,
