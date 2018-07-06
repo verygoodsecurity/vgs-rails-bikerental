@@ -3,31 +3,11 @@ BikeRental
 
 Example Secure Implementation of [VGS](https://www.verygoodsecurity.com) in Ruby on Rails.
 
-Uses jQuery, [Less](http://lesscss.org/), Ruby(>=1.9.3), Rails (>= 4.0.0.rc1), [Devise](https://github.com/plataformatec/devise), PostgreSQL, and
-[Bootstrap](http://twitter.github.com/bootstrap/).
 
-If you'd like to deploy this application. signup for a [Heroku account](http://www.heroku.com/signup), if you don't already have one, and install [Toolbelt](https://toolbelt.heroku.com/).
-
-
-Live Demo
-----------
-
-[http://BikeRental-rails.herokuapp.com](http://BikeRental-rails.herokuapp.com)
-
-
-Resources
-----------
-
-
-Install
+Clone
 --------
 
-    $ git clone https://github.com/verygoodsecurity/BikeRentals-rails.git
-    $ cd BikeRentals
-    $ bundle install
-    $ rake db:create
-    $ rake db:migrate
-    $ foreman run rake db:seed (if you want to seed database - also requires foreman gem)
+    $ git clone (will update once repo is open)
 
 
 Configure
@@ -35,55 +15,18 @@ Configure
 
 Create an .env file for the app by renaming .env.sample to .env
 
-* Set `VGS_PROXY_ADDRESSS` to your outbound connection address, `VGS_USER` to your outbound basic auth username and `VGS_PASS` to your Basic Auth Pass. Get one from [VGS] (https://dashboard.verygoodsecurity.com) if you don't have one.
-
-Edit `BikeRental/config/initializers/devise.rb`:
-
-* Configure the e-mail address which will be shown in Devise::Mailer
-
-Edit `BikeRental/config/database.yml`:
-
-* Set all necessary fields for your database.
-
-Example:
-
-```
-common: &common
-adapter: postgresql
-username:
-password:
-host: localhost
-timeout: 5000
-```
-
-```
-development:
-<<: *common
-database: BikeRental_dev
-```
-
-```test:
-<<: *common
-database: BikeRental_test
-```
+* Check out .env.sample to see what environment variables you should have (just add https_proxy for VGS and a Stripe API key sandbox if you want to see it work all the way through)(https://dashboard.verygoodsecurity.com) if you don't have one.
 
 
+Functionality displayed
+-----------------------
 
-Run
+1. Redacting via secureform post in ERB (currently need to expose to internet so ngrok as upstream will work, you can also swap out the src of my secure form to your own)
+2. Revealing CC info to the authenticated user. After a payment method is added there is a vew in session, to check Payment Method. This will retrieve payment details. These will still be redacted until a filter is set up to "reveal" on "GET" in the VGS dashboard.
+3. Lastly as part of the payment submission the stripe gem goes through the VGS Proxy via environment configurations - this is show in .env.sample. If both of those are filled out this will run smoothly create a record "fake charge a card in stripes API sandbox" and show you how it will work on your apps. (You will also need to configure reveal rules on the outbound connection to stripe)
+
+Run / Install
 ----
 
-    $ foreman start
+    $ docker-compose up --build
 
-or if you dont have [Toolbelt] (https://toolbelt.heroku.com/)
-
-    $ rails s
-
-
-Deploy
--------
-
-    $ cd BikeRentals
-    $ heroku create
-    $ git push origin heroku
-    $ heroku ps:scale web=1
-    $ heroku open
