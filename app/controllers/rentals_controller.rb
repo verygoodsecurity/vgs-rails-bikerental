@@ -1,37 +1,36 @@
 class RentalsController < ApplicationController
 
+  skip_before_action :authenticate_user!, :only => [:create]
+
   def index
     render :confirmation
   end
 
   def create
-    # user represents a user in our database who wants to rent a bicycle
-    # buyer is a another User object that knows about payment information for user
-    # or guest who wants to rent a bicycle
+    renter = User.find_by_email(params[:'guest-email_address'])
 
-    buyer, user = nil, nil
+    card = PaymentCard.new(
+        card_number: params[:'guest-number'],
+        expiration_year: params[:'guest-expiration_year'],
+        expiration_month: params[:'guest-expiration_month'],
+        security_code: params[:'guest-cvv'],
+        user_id: renter.id
+    )
+    listing = Listing.find(params[:listing_id])
 
-    respond_to do |format|
-      if request.xhr?
-        format.json{
-        buyer = User.find_by_email(params[:"guest-email_address"])
-        
+    # Stripe uses HTTP:Net client which allows proxy configuring by ENV['https_proxy']
+    stripe = Stripe::Token.create(card: {
+        number: card.card_number,
+        exp_month: card.expiration_month,
+        exp_year: card.expiration_year,
+        cvc: card.security_code
+    })
+    charge = Stripe::Charge.create(amount: listing.price, currency: 'USD', source: stripe.id)
 
-        card = PaymentCard.new(
-          card_number: params[:"guest-number"],
-          expiration_year: params[:"guest-expiration_year"],
-          expiration_month: params[:"guest-expiration_month"],
-          security_code: params[:"guest-cvv"]
-        )
-        card.save
+    card.update(charge_id: charge.id)
+    listing.rent(renter: renter, card_id: card.id)
 
-        listing.rent(renter: buyer, card_id: card.id)
-        listing = Listing.find(params[:listing_id])}
-      else
-        format.html {render :confirmation}
-      end
-    end
-    
+    render nothing: true
   end
 
 
