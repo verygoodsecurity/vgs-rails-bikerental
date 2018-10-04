@@ -8,6 +8,7 @@ services:
       /bin/bash -c "\
          cd /opt/app/src                          \
          && rm -f tmp/pids/*                      \
+         && bundle update                         \
          && bin/rake db:drop                      \
          && bin/rake db:create                    \
          && bin/rake db:migrate                   \
