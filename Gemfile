@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # ruby 2.0.0 required for Heroku deployment, 1.9.3 works locally
-ruby '2.3.7'
+ruby '2.3.8'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 4.1', '>= 4.1.0'
