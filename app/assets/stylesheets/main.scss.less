@@ -2,7 +2,7 @@
 @backgroundColor: #eee;
 @darkGray: #4D4D4D;
 @lightGray: #b3b3b3;
-@reallyLightGray: #E6E6E6;
+@reallyLightGray: #F8F8F8;
 @bodyFont: 'Helvetica Neue', Arial, sans-serif;
 @lightFontFamily: 'HelveticaNeue-Light', 'Helvetica Neue Light', Arial, sans-serif;
 
@@ -15,11 +15,10 @@ body {
     width: 960px;
     font-family: @bodyFont;
     background-color: @backgroundColor;
-    background-image: asset-url("background.png");
 }
 
 header {
-    margin-bottom: 40px;
+    margin-bottom: 25px;
     nav {
         float: right;
     }
@@ -29,12 +28,16 @@ header {
             display: inline-block;
             border-left: 1px solid #ccc;
             padding-left: 10px;
+            padding-right: 10px;
         }
         &:first-child {
             margin-right: 5px;
             a {
                 border-left: 0;
             }
+        }
+        &:last-child {
+            padding-right: 0;
         }
         &.selected {
             a {
@@ -44,7 +47,7 @@ header {
         }
     }
     .minor {
-        padding: 10px 20px;
+        padding: 10px 0;
         height: 20px;
         nav {
 
@@ -89,30 +92,35 @@ header {
 footer {
     text-align: center;
 }
+.logo {
+    width: 200px;
+    background-image: asset-url("logo.png");
+    background-position: center;
+    background-repeat: no-repeat;
+}
 
 .box {
     background-color: white;
-    padding: 5px;
-    margin-bottom: 40px;
-    border: 1px solid #ccc;
-    border-radius: 1px;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-    padding-bottom: 30px;
+    padding: 12px;
+    margin-bottom: 25px;
+    border-radius: 4px;
+    .form-container {
+        padding: 20px;
+    }
 }
 
 
 form {
+    margin-bottom: 10px;
     label {
         font-size: 11px;
         font-weight: bold;
-        text-transform: lowercase;
         margin-bottom: 0;
     }
 }
 
 #main {
     h1 {
-        text-transform: lowercase;
         padding: 20px;
         font-weight: 200;
         font-size: 24px;
@@ -124,20 +132,24 @@ form {
 }
 
 .bike {
-    padding-bottom: 5px;
+
     .title {
         width: 467px;
         height: 175px;
         display: table-cell;
         vertical-align: bottom;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
         h2 {
             background-color: rgba(0, 0, 0, 0.5);
             color: white;
-            text-transform: lowercase;
-            font-family: @lightFontFamily;
+            font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', Arial, sans-serif;
             font-weight: 100;
-            padding: 11px 20px;
+            padding: 10px 13px;
+            font-size: 21px;
             line-height: 1;
+            margin: 0;
         }
     }
     .body {
@@ -146,12 +158,12 @@ form {
     .description {
         display: table-cell;
         vertical-align: middle;
-        height: 129px;
+        height: 133px;
         p {
             display: table-cell;
             vertical-align: middle;
             padding: 0 20px;
-            width: 461px / 3 * 2;
+            width: 75%;
             border-right: 1px solid @reallyLightGray;
         }
         .price {
@@ -164,7 +176,7 @@ form {
             span {
                 padding-bottom: 10px;
                 display: block;
-                font-size: 45px;
+                font-size: 35px;
                 color: @darkGray;
             }
         }
@@ -191,28 +203,26 @@ form {
         }
     }
     .btn {
-        font-size: 16px;
-        text-transform: lowercase;
-        padding: 8px 20px;
+        font-size: 14px;
     }
     &.road {
         .title {
-            background-image: asset-url("road.jpg")
+            background-image: asset-url("road.png")
         }
     }
     &.hybrid {
         .title {
-            background-image: asset-url("hybrid.jpg")
+            background-image: asset-url("hybrid.png")
         }
     }
     &.touring {
         .title {
-            background-image: asset-url("touring.jpg")
+            background-image: asset-url("touring.png")
         }
     }
     &.fixie {
         .title {
-            background-image: asset-url("fixie.jpg")
+            background-image: asset-url("fixie.png")
         }
     }
 }
@@ -292,36 +302,26 @@ form.edit_user input{
     vertical-align: middle;
     width: 100%;
 }
-  
-.form-control-static span.fake-input {
-    background-color: #fff;
-    border: 1px solid #BFBFBF;
-    display: inline-block;
-    height: 27px;
-    padding: 1px;
-    position: relative;
-    width: 100%;
-}
-
-#cc-name {
-    width: 300px;
-}
-
-#cc-number{
-    width: 300px;
-}
 
 select#guest-expiration_month.fake-input {
-    width: 60px;
+    width: 80px;
 }
 select#guest-expiration_year.fake-input {
-    width: 60px;
+    width: 80px;
 }
 #cc-cvc .fake-input{
-    width: 60px;
+    width: 80px;
 }
 
-.card_details b {
-  width: 120px;
-  display: inline-block;
+.card_details {
+    padding: 25px;
+    b {
+        width: 120px;
+        display: inline-block;
+    }
+}
+
+.form-container {
+    width: 50%;
+    margin: 0 auto;
 }

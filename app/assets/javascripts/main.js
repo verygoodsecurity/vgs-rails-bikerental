@@ -1,6 +1,6 @@
 
 window.onload=function(){
-    const f = SecureForm.create('Rails-4.1', function(state) {
+    const f = VGSCollect.create('Rails-4.1', function(state) {
  });
 
 const field = f.field('#cc-name .fake-input', {
@@ -66,7 +66,9 @@ document.getElementById('cc-form')
   .addEventListener('submit', function(e) {
       e.preventDefault();
       f.submit('/rentals', {
-          headers: {},
+          headers: {
+            'x-custom-header': 'Oh yes. I am a custom header',
+          },
           data: {}
       }, function(status, data) {
           window.location.href = '/rentals';

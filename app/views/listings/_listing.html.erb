@@ -6,7 +6,7 @@
         <div class="description">
             <p><%= listing.description %></p>
             <div class="price">
-                <span><%= listing.price ? listing.price/100 : 10 %></span>
+                <span><%= listing.price ? listing.price/100 : 10 %>$</span>
                 per day
             </div>
         </div>
@@ -21,9 +21,9 @@
             </div>
             <div>
                 <% if user_signed_in? && current_user.listings.include?(listing) %>
-                    <%= link_to('Edit this listing', edit_listing_path(listing),:class => 'btn')  %>                   
+                    <%= link_to('Edit', edit_listing_path(listing),:class => 'btn btn-xs btn-primary')  %>
                 <% end %>
-            	<%= link_to('Rent this bike', listing_path(listing),:class => 'btn btn-inverse')  %>
+            	<%= link_to('Rent', listing_path(listing),:class => 'btn btn-xs btn-success')  %>
             </div>
         </div>
     </div>

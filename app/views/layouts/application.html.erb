@@ -8,7 +8,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-    <header>
+    <header class="clearfix">
         <div class="minor">
             <nav>
             <% if user_signed_in? %>
@@ -17,11 +17,12 @@
                 <li><%= link_to('Check Payment Method', user_path(current_user.id)) %>
                 <li><%= link_to('Log out', destroy_user_session_path) %></li>
             <% else %>
-                <li><%= link_to('log in', new_user_session_path) %></li>
-                <li><%= link_to('sign up', new_user_registration_path) %></li>
+                <li><%= link_to('Log in', new_user_session_path) %></li>
+                <li><%= link_to('Sign up', new_user_registration_path) %></li>
             <% end %>
             </nav>
         </div>
+        <% if false %>
         <div class="major">
             <h1><a href="/">Rent My Bike</a></h1>
             <nav>
@@ -29,7 +30,28 @@
                 <li><%= link_to('list a bike', new_listing_path) %></li>
             </nav>
         </div>
+        <% end %>
     </header>
+    <nav class="navbar navbar-default">
+        <div class="">
+            <div class="navbar-header">
+                <button type="button" class="collapsed navbar-toggle"
+                   data-toggle="collapse"
+                   data-target="#bs-example-navbar-collapse-3"
+                   aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                 </button>
+                <a href="#" class="navbar-brand logo"></a>
+            </div>
+            <div class="collapse navbar-collapse pull-right" id="bs-example-navbar-collapse-3">
+                <a href="/" class="btn btn-primary navbar-btn">Rent a bike</a>
+                <%= link_to('List a bike', new_listing_path, { :class=>"btn btn-primary navbar-btn" }) %>
+            </div>
+        </div>
+    </nav>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
 <section id="main">
@@ -37,7 +59,7 @@
 </section>
 <footer>
     <div>
-	   <p>Copyright &copy; 2018. <a href="https://www.verygoodsecurity.com">Very Good Security</a>.</p>
+	   <p>Copyright &copy; 2019. <a href="https://www.verygoodsecurity.com">Very Good Security</a>.</p>
 	</div>
 </footer>
     <a href="https://github.com/verygoodsecurity/BikeRentals-rails" id="github">
