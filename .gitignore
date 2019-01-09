@@ -11,3 +11,4 @@
 /coverage/
 /spec/tmp/*
 db/data/*.sqlite3
+.idea/
