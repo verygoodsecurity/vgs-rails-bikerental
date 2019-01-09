@@ -1,14 +1,14 @@
-<div class="row">
+<div>
   <div class="span7 box">
-    <h1>Resend confirmation instructions</h1>
-    <div class="span6">
+    <h4 class="text-center"><b>Resend confirmation instructions</b></h4>
+    <div class="span6 form-container">
       <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
         <%= devise_error_messages! %>
 
-        <div><%= f.label :email %><br />
-        <%= f.email_field :email %></div>
+        <div class="form-group"><%= f.label :email %><br />
+        <%= f.email_field :email, class: 'form-control' %></div>
 
-        <div><%= f.submit 'Resend confirmation instructions', class: 'btn-primary' %></div>
+        <div><%= f.submit 'Resend confirmation instructions', class: 'btn btn-primary' %></div>
       <% end %>
 
       <%= render partial: 'devise/shared/links' %>

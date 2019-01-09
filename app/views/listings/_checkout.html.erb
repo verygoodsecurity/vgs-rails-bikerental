@@ -1,62 +1,61 @@
-<div class="row">
+<div>
     <div class="span7 box">
-        <h1>Checkout</h1>
-        <div class="span6 offset1">
+        <h4 class="text-center"><b>Checkout</b></h4>
+        <div class="span6 offset1 form-container">
             <%= form_tag({:controller => 'rentals', :action => 'create', :method => 'post'}, {:id => 'cc-form'}) do %>
-            <div id="guest" class="form-group">
-              <label for="guest"></label>
-              <div class="form-control-static">  
-              <%= hidden_field_tag(:"guest-name", user.name) %>
+            <div id="guest" class="form-group hidden">
+                <label for="guest"></label>
+                <div class="form-control-static">
+                <%= hidden_field_tag(:"guest-name", user.name) %>
               </div>
             </div>
-            <div id="guest-email-address" class="form-group">
-              <label for="guest-email-address"></label>
-              <div class="form-control-static">  
-                <%= hidden_field_tag(:"guest-email_address", user.email) %></span>
-              </div>
+            <div id="guest-email-address" class="form-group hidden">
+                <label for="guest-email-address"></label>
+                <div class="form-control-static">
+                    <%= hidden_field_tag(:"guest-email_address", user.email) %></span>
+                </div>
             </div>
             <div id="cc-name" class="form-group">
-            <label for="cc-name-field">Name on Card</label>
-            <div class="form-control-static">
-              <span class="fake-input"></span>
-            </div>
+                <label for="cc-name-field">Name on Card</label>
+                <div class="form-control-static">
+                    <span class="fake-input form-control"></span>
+                </div>
             </div>
             <div id="cc-number" class="form-group">
-              <label for="cc-number-field">Card Number</label>
-              <div class="form-control-static">
-                <span class="fake-input"></span>
-              </div>
+                <label for="cc-number-field">Card Number</label>
+                <div class="form-control-static">
+                    <span class="fake-input form-control"></span>
+                </div>
             </div>
-            <label>Expiration Month</label>
             <div id="cc-exp-month" class="form-group">
-              <label for="cc-exp-month"></label>
-              <div class="form-control-static">
-                <span class="fake-input" style="width: 50px;"></span>
-              </div>
+                <label for="cc-exp-month">Expiration Month</label>
+                <div class="form-control-static">
+                    <span class="fake-input form-control" style="width: 50px;"></span>
+                </div>
             </div>
-            <label>Expiration Year</label>
             <div id="cc-exp-year" class="form-group">
-              <label for="cc-exp-year"></label>
-              <div class="form-control-static">
-                <span class="fake-input" style="width: 50px;"></span>
-              </div>
+                <label for="cc-exp-year">Expiration Year</label>
+                <div class="form-control-static">
+                    <span class="fake-input form-control" style="width: 50px;"></span>
+                </div>
             </div>
             <div id="cc-cvc" class="form-group">
               <label for="cc-cvc-field">Card Verification Code (CVC)</label>
               <div class="form-control-static">
-                <span class="fake-input"></span>
+                <span class="fake-input form-control"></span>
               </div>
             </div>
-              <label>Postal Code</label>
-              <input type="text" id="guest-postal_code" name="guest-postal_code" class="span1" autocomplete="off" />
+            <div class="form-group">
+                <label>Postal Code</label>
+                <input type="text" id="guest-postal_code" name="guest-postal_code" class="span1 form-control" autocomplete="off" />
             </div>
             <div id="listing" class="form-group">
-              <label for="listing"></label>
-              <div class="form-control-static">   
-                <%= hidden_field_tag(:listing_id, @listing.id)%>
-              </div>
+                <label for="listing" hidden></label>
+                <div class="form-control-static" hidden>
+                    <%= hidden_field_tag(:listing_id, @listing.id)%>
+                </div>
+                <%= submit_tag 'Rent', class: 'btn btn-primary', remote: true %>
             </div>
-                <%= submit_tag 'Rent', class: 'btn-primary', remote: true %>
             </div>
             <% end %>
         </div>

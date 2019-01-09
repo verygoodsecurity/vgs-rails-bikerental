@@ -1,20 +1,40 @@
 <%= render :partial => 'listing', :locals => { :listing => @listing} %>
-<div class="row">
+<div>
     <div class="span7 box">
-        <h1>List your bike</h1>
-        <div class="span6 offset1">
+        <h4 class="text-center"><b>List your bike</b></h4>
+        <div class="span6 offset1 form-container">
             <%= form_for @listing do |f| %>
+            <div class="form-group">
                 <%= f.label(:title, 'Listing Title', :class => 'control-label') %>
+            </div>
+            <div class="form-group">
                 <%= f.text_field(:title, :class => 'span5', :id => 'listing-title') %>
+            </div>
+            <div class="form-group">
                 <%= f.label(:description, 'Listing Description', :class => 'control-label') %>
+            </div>
+            <div class="form-group">
                 <%= f.text_area(:description, :class => 'span5', :id => 'listing-description') %>
+            </div>
+            <div class="form-group">
                 <%= f.label(:location, 'Location', :class => 'control-label') %>
+            </div>
+            <div class="form-group">
                 <%= f.text_field(:location, :class => 'span5', :id => 'listing-location') %>
+            </div>
+            <div class="form-group">
                 <%= f.label(:bicycle_type, 'Bike Type', :class => 'control-label') %>
+            </div>
+            <div class="form-group">
                 <%= f.select(:bicycle_type, options_for_select(["fixie", "hybrid", "road", "touring"]), :class => 'span5', :id => 'listing-bike-type') %>
+            </div>
+            <div class="form-group">
                 <%= f.label(:price, 'Rental Price (in Dollars)', :class => 'control-label') %>
+            </div>
+            <div class="form-group">
                 <%= f.text_field(:price, :value => (f.object.price.to_i)/100, :class => 'span5', :id => 'listing-rent-price') %>
-                <%= f.submit("Update Listing") %>
+            </div>
+            <%= f.submit("Update Listing") %>
             <% end %>
         </div>
     </div>
