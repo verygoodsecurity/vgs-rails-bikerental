@@ -34,6 +34,7 @@ gem 'less-rails', '~> 2.8.0'
 group :development do
   gem 'quiet_assets'
   gem 'foreman'
+  gem 'dotenv'
   gem 'dotenv-rails'
 end
 

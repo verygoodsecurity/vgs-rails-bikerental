@@ -4,7 +4,12 @@
   <title>BikeRental</title>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
+
+  <%-# Remove this file -%>
   <script type="text/javascript" src="https://js.verygoodvault.io/js-vgfield-2/joe-dev.js"></script>
+
+  <%-# Include your VGS Collect file here -%>
+
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -15,22 +20,13 @@
                 <li><%= current_user.email %></li>
                 <li><%= link_to('Edit Account', edit_user_registration_path(current_user)) %></li>
                 <li><%= link_to('Check Payment Method', user_path(current_user.id)) %>
-                <li><%= link_to('Log out', destroy_user_session_path) %></li>
+                <li><%= link_to "Sign out", destroy_user_session_path %></li>
             <% else %>
                 <li><%= link_to('Log in', new_user_session_path) %></li>
                 <li><%= link_to('Sign up', new_user_registration_path) %></li>
             <% end %>
             </nav>
         </div>
-        <% if false %>
-        <div class="major">
-            <h1><a href="/">Rent My Bike</a></h1>
-            <nav>
-                <li class="selected"><a href="/">Rent a Bike</a></li>
-                <li><%= link_to('list a bike', new_listing_path) %></li>
-            </nav>
-        </div>
-        <% end %>
     </header>
     <nav class="navbar navbar-default">
         <div class="">
