@@ -14,7 +14,7 @@ gem 'rack-cors'
 
 gem 'stripe'
 
-gem 'nokogiri', '~> 1.8.5'
+gem 'nokogiri', '~> 1.10.4'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
