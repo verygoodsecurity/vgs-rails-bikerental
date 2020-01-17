@@ -1,6 +1,6 @@
 
 window.onload=function(){
-    const f = VGSCollect.create('Rails-4.1', function(state) {
+    const f = VGSCollect.create('Rails-4.1', 'sandbox',  function(state) {
  });
 
 const field = f.field('#cc-name .fake-input', {
