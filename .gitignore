@@ -12,3 +12,4 @@
 /spec/tmp/*
 db/data/*.sqlite3
 .idea/
+node_modules
