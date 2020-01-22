@@ -61,7 +61,7 @@ https_proxy=<The proxy URL you found in step 2>
 - Open `main.js`. Change `environment` param to your [vault id](https://www.verygoodsecurity.com/docs/terminology/nomenclature#vault) inside initialization function:
 
 ```
-const f = VGSCollect.create('<vault id>', 'sandbox', function(state) {});
+const f = VGSCollect.create('<vault id>', '<sandbox | live>', function(state) {});
 ```
 
 ### 5. Run
