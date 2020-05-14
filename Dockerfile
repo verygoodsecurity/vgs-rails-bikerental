@@ -28,8 +28,7 @@ RUN apt-get update -qq \
 WORKDIR $APP_PATH
 COPY Gemfile $APP_PATH/
 RUN echo "gem: --no-ri --no-rdoc" > ~/.gemrc \
-    && gem update --system \
-    && gem2.3 install bundler --version=1.8.0 \
+    && gem install bundler -v "<2.0" \
     && bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3
 
 # # install nodejs dependencies ( in separate dir due to docker cache)
