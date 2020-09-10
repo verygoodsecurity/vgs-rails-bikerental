@@ -1,16 +1,18 @@
-FROM ubuntu:14.04
+FROM ubuntu:18.04
 
 ENV APP_PATH /opt/app
+ENV NODE_VERSION node_12.x
+ENV DISTRO bionic
+ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -qq \
-    && apt-get install -y --no-install-recommends software-properties-common \
-    && add-apt-repository ppa:kirillshkrogalev/ffmpeg-next \
+    && apt-get install -y --no-install-recommends software-properties-common curl gnupg \
     && apt-add-repository ppa:brightbox/ruby-ng \
-    && add-apt-repository ppa:chris-lea/node.js \
+    && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
     && apt-get update \
     && apt-get upgrade -y --no-install-recommends \
     && apt-get install -y --no-install-recommends \
-        git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev libmysqlclient-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties \
+    git-core zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev libmysqlclient-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python3-software-properties \
         imagemagick \
         ffmpeg \
         ghostscript \
@@ -28,7 +30,7 @@ RUN apt-get update -qq \
 WORKDIR $APP_PATH
 COPY Gemfile $APP_PATH/
 RUN echo "gem: --no-ri --no-rdoc" > ~/.gemrc \
-    && gem update --system \
+    && gem update --system 3.0.6 \
     && gem2.3 install bundler --version=1.8.0 \
     && bundle install --jobs `expr $(cat /proc/cpuinfo | grep -c "cpu cores") - 1` --retry 3
 
