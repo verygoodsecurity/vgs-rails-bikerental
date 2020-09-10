@@ -6,7 +6,10 @@ ruby '2.3.8'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 4.1', '>= 4.1.0'
 
-gem 'sqlite3'
+# update this if you update activerecord
+gem 'sqlite3', '~> 1.3.6'
+
+gem 'tzinfo-data', '~> 1.2020.1'
 
 gem 'thin'
 
