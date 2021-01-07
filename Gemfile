@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 ruby '2.3.8'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 4.1', '>= 4.1.0'
+gem 'rails', '~> 5.2', '>= 5.2.4.4'
 
 # update this if you update activerecord
 gem 'sqlite3', '~> 1.3.6'
@@ -17,28 +17,28 @@ gem 'rack-cors'
 
 gem 'stripe'
 
-gem 'nokogiri', '~> 1.11.0.rc4'
+gem 'nokogiri', '~> 1.11.0'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
+gem 'sass-rails', '~> 5.0.5'
 
 # We need rubyracer to use less
 gem 'therubyracer'
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails'
+gem 'jquery-rails', '>= 4.4.0'
 
 # devise for authentication
-gem 'devise'
+gem 'devise', '>= 4.7.2'
 
 gem 'protected_attributes'
 gem 'less-rails', '~> 2.8.0'
 
 group :development do
-  gem 'quiet_assets'
+  gem 'quiet_assets', '>= 1.1.0'
   gem 'foreman'
   gem 'dotenv'
-  gem 'dotenv-rails'
+  gem 'dotenv-rails', '>= 2.7.6'
 end
 
 group :doc do
