@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 ruby '2.3.8'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2', '>= 5.2.4.6'
+gem 'rails', '~> 5.2', '>= 5.2.4.4'
 
 # update this if you update activerecord
 gem 'sqlite3', '~> 1.3.6'
@@ -17,7 +17,7 @@ gem 'rack-cors'
 
 gem 'stripe'
 
-gem 'nokogiri', '~> 1.11.0'
+gem 'nokogiri', '~> 1.11.4'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0.5'
