@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 ruby '2.3.8'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2', '>= 5.2.4.4'
+gem 'rails', '~> 6.0', '>= 6.0.3.5'
 
 # update this if you update activerecord
 gem 'sqlite3', '~> 1.3.6'
@@ -20,7 +20,7 @@ gem 'stripe'
 gem 'nokogiri', '~> 1.11.4'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0.5'
+gem 'sass-rails', '~> 5.0.8'
 
 # We need rubyracer to use less
 gem 'therubyracer'
